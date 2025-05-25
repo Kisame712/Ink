@@ -5,13 +5,33 @@ using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour
 {
-
+    SceneFlowManager sceneFlowManager;
+    public GameObject warningText;
+    private void Start()
+    {
+        sceneFlowManager = FindObjectOfType<SceneFlowManager>();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Player")
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            if (sceneFlowManager.AllItemsCollected())
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
+            else
+            {
+                StartCoroutine(DisplayWarning());
+            }
+
         }   
+    }
+
+    IEnumerator DisplayWarning()
+    {
+        warningText.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        warningText.SetActive(false);
     }
 
 }
