@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
 
     [Header("Animations and Effects")]
     public Animator playerAnim;
+    public GameObject jumpEffect;
 
     [Header("Player Audio")]
     AudioSource playerAudioSource;
@@ -67,6 +68,7 @@ public class Player : MonoBehaviour
         if (value.isPressed)
         {
             playerAnim.SetTrigger("jump");
+            Instantiate(jumpEffect, transform.position, transform.rotation);
             playerAudioSource.PlayOneShot(jumpSound, jumpVolume);
             playerRb.velocity = new Vector2(0f, jumpSpeed);
         }
